@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+    <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <property name="host" value="${rabbitmq_host}"/>
+        <property name="port" value="${rabbitmq_port}"/>
+        <property name="username" value="${rabbitmq_username}"/>
+        <property name="password" value="${rabbitmq_password}"/>
+        <property name="connectionTimeout" value="1000"/>
+        <property name="virtualHost" value="/"/>
+    </bean>
+    <bean id="jackson2JsonMessageConverter"
+          class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"></bean>
+
+    <bean id="rabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+        <property name="messageConverter" ref="jackson2JsonMessageConverter"></property>
+    </bean>
+
+    <rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory"/>
+    <bean id="messageSender" class="org.lili.mq.MessageSender">
+        <constructor-arg ref="rabbitTemplate"/>
+    </bean>
+
+
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+
+   <!-- <rabbit:connection-factory id="connectionFactoryName"
+                               username="${rabbitmq_username}"
+                               password="${rabbitmq_password}"
+                               host="${rabbitmq_host}"
+                               port="${rabbitmq_port}"/>
+    <rabbit:admin connection-factory="connectionFactoryName"/>
+
+    <rabbit:template id="template" connection-factory="connectionFactoryName"/>
+    <rabbit:queue name="lili.fanout.queue" durable="true" auto-delete="false" exclusive="false"/>
+    <rabbit:fanout-exchange name="lili.fanout.exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="lili.fanout.queue"/>
+        </rabbit:bindings>
+    </rabbit:fanout-exchange>
+-->
+</beans>

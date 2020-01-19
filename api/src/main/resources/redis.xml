@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis_MAX_TOTAL}" />
+        <property name="maxIdle" value="${redis_MAX_IDLE}" />
+    </bean>
+
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg>
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_node_1_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_node_1_port}"></constructor-arg>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_node_2_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_node_2_port}"></constructor-arg>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_cluster_3_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_cluster_3_port}"></constructor-arg>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_cluster_4_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_cluster_4_port}"></constructor-arg>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_cluster_5_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_cluster_5_port}"></constructor-arg>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${redis_cluster_cluster_6_host}"></constructor-arg>
+                    <constructor-arg name="port" value="${redis_cluster_cluster_6_port}"></constructor-arg>
+                </bean>
+            </set>
+        </constructor-arg>
+        <constructor-arg index="1" value="3000"/>
+        <constructor-arg index="2" value="3000"/>
+        <constructor-arg index="3" value="5"/>
+        <constructor-arg index="4" value="${redis_cluster_password}"></constructor-arg>
+        <constructor-arg index="5" ref="jedisPoolConfig"/>
+    </bean>
+
+</beans>

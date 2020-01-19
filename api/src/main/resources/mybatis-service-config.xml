@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    <description>Service Data Source Config</description>
+
+    <!-- 主库 -->
+    <bean id="dataSource_service" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${db_jdbc_url}"/>
+        <property name="username" value="${db_jdbc_username}"/>
+        <property name="password" value="${db_jdbc_password}"/>
+        <property name="initialSize" value="10"/>
+        <property name="maxActive" value="2000"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="60000"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="180"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select 1 from dual"/>
+        <property name="validationQueryTimeout" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="numTestsPerEvictionRun" value="100"/>
+    </bean>
+
+    <!-- 从库 -->
+    <bean id="dataSource_service_read" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${db_jdbc_url_read}"/>
+        <property name="username" value="${db_jdbc_username_read}"/>
+        <property name="password" value="${db_jdbc_password_read}"/>
+        <property name="initialSize" value="10"/>
+        <property name="maxActive" value="2000"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="60000"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="180"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select 1 from dual"/>
+        <property name="validationQueryTimeout" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="numTestsPerEvictionRun" value="100"/>
+    </bean>
+   
+</beans>
